@@ -1,7 +1,7 @@
 from PIL import Image
 import matplotlib.pyplot as plt
 # Charger l'image
-image_path = "blanc.jpg"
+image_path = "assets/blanc.jpg"
 image = Image.open(image_path)
 
 largeur, hauteur = image.size
