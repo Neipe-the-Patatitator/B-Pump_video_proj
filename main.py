@@ -12,15 +12,15 @@ marker_size = 100
 class Exercices:
     def __init__(self):
         """
-        Initialisation de la classe
+        Class initialization
         """
         pass
 
     def start(self, workout):
         """
-        Afficher le graphique pour l'exercice spécifié
+        Show chart for specified fiscal year
 
-        :param workout: Le nom de l'exercice
+        :param workout: The name of the exercise
         """
         title = data.fetchSugar(workout)
         positions = data.fetchPosition(workout)

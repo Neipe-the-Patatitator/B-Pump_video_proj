@@ -5,20 +5,20 @@ with open("./data/workouts.json", "r") as read_file:
 
 def fetchSugar(exercice):
     """
-    Récupère le titre associé au sugar d'un exo
+    Recovers the title associated with an exercice's sugar
 
-    :param exercice: Le nom de l'exercice
-    :return: Le titre de l'exo
+    :param exercise: The name of the exercise
+    :return: The title of the exercice
     """
     parsed = data['workouts'][exercice]
     return parsed['sugar']['title']
 
 def fetchPosition(exercice):
     """
-    Récupère les positions des points à afficher sur le graphique
+    Retrieves the positions of the points to display on the graph
 
-    :param exercice: Le nom de l'exercice
-    :return: Les positions des points à afficher
+    :param exercise: The name of the exercise
+    :return: The positions of the points to display
     """
     parsed = data['workouts'][exercice]['position']
     positions = [(point['milieu_x'], point['milieu_y']) for point in parsed]
