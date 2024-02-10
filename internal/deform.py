@@ -4,18 +4,22 @@ import os
 
 def deformImage(workout):
     filePath = f"./data/{workout}.png"
+    image = cv2.imread(filePath)
     
-    points_originaux = np.float32([[0, 0], [1600, 0], [0, 800], [1600, 800]])
-    points_dest = np.float32([[400, 0], [1200, 0], [0, 800], [1600, 800]])
-    
-    matrice_transformation = cv2.getPerspectiveTransform(points_originaux, points_dest)
-    image_trapeze = cv2.warpPerspective(cv2.imread(filePath), matrice_transformation, (1600, 800))
+    if image is not None:
+        height, width = image.shape[:2]
+        center = (width // 2, height // 2)
+        radius = min(center)
+        
+        map_x, map_y = np.meshgrid(np.arange(width), np.arange(height))
+        polar_map_x = center[0] + ((map_x - center[0]) / radius) * np.sqrt((map_x - center[0])**2 + (map_y - center[1])**2)
+        polar_map_y = center[1] + ((map_y - center[1]) / radius) * np.sqrt((map_x - center[0])**2 + (map_y - center[1])**2)
+        
+        image_cercle = cv2.remap(image, polar_map_x.astype(np.float32), polar_map_y.astype(np.float32), interpolation=cv2.INTER_LINEAR)
+        
+        cv2.imwrite(f"./data/deform-{workout}.png", image_cercle)
+        os.remove(filePath)
 
-    scaled_image = cv2.resize(image_trapeze, (800, 400))
+        return "Image déformée avec succès"
 
-    cv2.imshow("Image", scaled_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    os.remove(filePath)
-
-    return "Image déformée avec succès"
+    return "Erreur : Impossible de charger l'image initiale"
