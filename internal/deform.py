@@ -20,7 +20,7 @@ def deformImage(workout):
         if not os.path.exists(folderPath):
             os.makedirs(folderPath)
 
-        cv2.imwrite(f"./output/{workout}.png", image_deformee)
+        cv2.imwrite(f"{folderPath}/{workout}.png", image_deformee)
         os.remove(filePath)
 
         return "Image déformée avec succès"
