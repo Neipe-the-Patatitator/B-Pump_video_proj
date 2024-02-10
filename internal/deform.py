@@ -4,6 +4,8 @@ import os
 
 def deformImage(workout):
     filePath = f"./data/{workout}.png"
+    folderPath = "./output"
+
     image = cv2.imread(filePath)
     
     if image is not None:
@@ -15,6 +17,9 @@ def deformImage(workout):
         matrice_homographique = cv2.getPerspectiveTransform(points_originaux, points_dest)
         image_deformee = cv2.warpPerspective(image, matrice_homographique, (width, height))
         
+        if not os.path.exists(folderPath):
+            os.makedirs(folderPath)
+
         cv2.imwrite(f"./output/{workout}.png", image_deformee)
         os.remove(filePath)
 
