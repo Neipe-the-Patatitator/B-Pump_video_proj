@@ -15,7 +15,7 @@ def deformImage(workout):
         matrice_homographique = cv2.getPerspectiveTransform(points_originaux, points_dest)
         image_deformee = cv2.warpPerspective(image, matrice_homographique, (width, height))
         
-        cv2.imwrite(f"./data/deform-{workout}.png", image_deformee)
+        cv2.imwrite(f"./output/{workout}.png", image_deformee)
         os.remove(filePath)
 
         return "Image déformée avec succès"
