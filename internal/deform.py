@@ -8,16 +8,14 @@ def deformImage(workout):
     
     if image is not None:
         height, width = image.shape[:2]
-        center = (width // 2, height // 2)
-        radius = min(center)
+
+        points_originaux = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
+        points_dest = np.float32([[0, 0], [width, 0], [width // 4, height], [3 * width // 4, height]])
         
-        map_x, map_y = np.meshgrid(np.arange(width), np.arange(height))
-        polar_map_x = center[0] + ((map_x - center[0]) / radius) * np.sqrt((map_x - center[0])**2 + (map_y - center[1])**2)
-        polar_map_y = center[1] + ((map_y - center[1]) / radius) * np.sqrt((map_x - center[0])**2 + (map_y - center[1])**2)
+        matrice_homographique = cv2.getPerspectiveTransform(points_originaux, points_dest)
+        image_deformee = cv2.warpPerspective(image, matrice_homographique, (width, height))
         
-        image_cercle = cv2.remap(image, polar_map_x.astype(np.float32), polar_map_y.astype(np.float32), interpolation=cv2.INTER_LINEAR)
-        
-        cv2.imwrite(f"./data/deform-{workout}.png", image_cercle)
+        cv2.imwrite(f"./data/deform-{workout}.png", image_deformee)
         os.remove(filePath)
 
         return "Image déformée avec succès"
